@@ -7,6 +7,12 @@
 
 
 
+// chemin absolut d'installation du programme
+char * cheminSource = "C:/Users/Tshek/Documents/cours c/cpi-main/cpi/packages";
+
+
+
+
 // structure packages
 
 typedef struct package{
@@ -15,20 +21,31 @@ typedef struct package{
 }package;
 
 
-
 // fonction utils
-int cheminCourant();
+char * cheminCourant();      // le dossier depuis lequel on appelle cpi 
 
+
+
+DIR * ouvrirDossier(char * chemin);     // ouvrir un dossier
+int fermerDossier(DIR * chemin);        // fermer un dossier
 int copier(char *source, char *destination);
 int recherchePackage(char *path, char *namePackage);
 int supprimer(char *path, char *namePackage);
-
-
+int checkDossier(char *path, char *namePackage);        // verifier l'existence d'un package dans le depot
+int creerDossier(char * chemin);
+int copierDossier(DIR * package, char * destination);
 
 
 // fonction argument de ligne de commande
-int install(char *path, char *namePackage);
+void install(char *path, char *namePackage);
     // prendre le dossier qui a le nom 'namepackage' le copier dans path
-int uninstall(char *path, char *namePackage);
+void uninstall(char *path, char *namePackage);
     // aller dans path/packages chercher le dossier namepackage supprime
-int list(char *path);
+void listPackage(DIR * dossier);
+
+
+
+
+
+
+

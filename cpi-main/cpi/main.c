@@ -1,72 +1,31 @@
-#include "prototype.h"
-
-
-// structure
-
-
-
+#include "function.h"
 
 
 int main(int argc, char *argv[]){
 
-    // chemin vers le dossier pacckages, packages/
-    // python-open-cv2-3
+    char * cheminDestination = cheminCourant();    // chemin dans lequelle on appelle cpi
 
-
-    // recuper le chemin absolue , on le stocke dans la variable path
-    char buffer[1024];
-    char *pathPackage = getcwd(buffer, sizeof(buffer));
-
-    // chemin vers notre depot de packages
-    char packagesDir[10] = "/packages";
-    strcat(pathPackage, packagesDir);
-    // dossier package
-    DIR *packages;
-    struct dirent *ent;
-    struct stat statbuf;
-
-    packages = opendir(pathPackage);
-    if(packages == NULL){
-        return 3;
-    }
-
-    while((ent = readdir(packages))!= NULL){
-        stat(ent->d_name, &statbuf);
-       // printf("%s \n", ent->d_name);
-    }
-    printf("%d \n",argc);
-
-    if (argc > 0){
-        if ( strcmp (argv[1], "install") == 0){
-            char *namePackage = argv[2];
-            // on doit chercher le namepackage dans le dossier packages
-                 printf("installer \n");
+    if (argc  == 1){
+        printf("aucun parametre n'a ete fourni");
+    } else if (argc > 1){
+      if (strcmp(argv[1], "list") == 0 ){
+            if (argc == 2){
+                DIR * dossier = ouvrirDossier(cheminSource);
+                listPackage(dossier);
+                fermerDossier(dossier);
+            } else {
+                if (strcmp(argv[2], "all") == 0){
+                    DIR * dossier = ouvrirDossier(cheminSource);
+                    listPackage(dossier);
+                    fermerDossier(dossier);
+                } else {
+                    printf("parametre incorrect\n");
+                }
             
-            
-
+            }
+        } else {
+            printf("commande inconnue");
         }
-        else if( strcmp (argv[1], "uninstall")== 0){
-                 printf("desinstaller \n");
-        }
-         else if( strcmp(argv[1],"list") ==0){
-             printf("lister \n");
-
-         }
-          else if( strcmp (argv[1],"list  all") == 0){
-                 printf("Tout lister \n");
-          }
-          else{
-            printf("erreur");
-          }
-    }
-
-    printf("%s", argv[0]);
-
-    closedir(packages);
-
-
-
-
-
+    };
     return 0;
 }
